@@ -1,23 +1,25 @@
-------------------------------------
------ PACKAGE FOR HISTORIZATION
-------------------------------------
+---------------------------
+----- SET DEFAULT INTERVAL
+---------------------------
 
 DELIMITER ;;
 CREATE DEFINER=`hqlive`@`%` PROCEDURE `set_default_interval`(in_database_name CHAR(50))
 begin
 
-	insert IGNORE into hqlive.hist_interval (`table_name`, `interval`, ins_dt, ins_process_id)
-	select
+	-- Insert to param.table default values
+	INSERT IGNORE INTO hqlive.hist_interval (`table_name`, `interval`, ins_dt, ins_process_id)
+	SELECT
 		tables.table_name,
 		10 AS `interval`,
 		NOW() AS ins_dt,
 		'default-insert' AS ins_process_id
-	from information_schema.tables
-	left join hqlive.hist_table_exclusion ON hqlive.hist_table_exclusion.table_name = tables.table_name
-	  and hist_table_exclusion.`excluded_flag` = 1
-	where table_schema = in_database_name
-	and hqlive.hist_table_exclusion.id is null
-	order by tables.table_name
+	FROM information_schema.tables
+	LEFT JOIN hqlive.hist_table_exclusion ON hqlive.hist_table_exclusion.table_name = tables.table_name
+		AND hist_table_exclusion.`excluded_flag` = 1
+	WHERE 1=1
+		AND table_schema = in_database_name
+		AND hqlive.hist_table_exclusion.id is null
+	ORDER BY tables.table_name
 	;
 	
 end;;

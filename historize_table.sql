@@ -1,6 +1,6 @@
-------------------------------------
------ PACKAGE FOR HISTORIZATION
-------------------------------------
+-------------------------------------
+----- HISTORIZE TABLE (only 1 table)
+-------------------------------------
 
 DELIMITER ;;
 CREATE DEFINER=`hqlive`@`%` PROCEDURE `historize_table`(in_database_name CHAR(50), in_table_name CHAR(50))
@@ -15,7 +15,8 @@ begin
 
 	DECLARE tab_name CHAR(35);
 	DECLARE tab_h_name CHAR(35);
-	
+
+	-- Create cursor	
 	DECLARE cur1 CURSOR FOR
 		SELECT `tables`.`table_name`
 		FROM `information_schema`.`tables`
@@ -43,6 +44,7 @@ begin
 			LEAVE the_loop;
 		END IF;
 		
+		-- Prepare variables
 		SET @last_upd_dt = IFNULL(get_last_upd_dt(in_database_name, in_table_name), '1900-01-01');
 		SET @new_valid_to = date_add(NOW(), INTERVAL -1 second);
 		SET @new_valid_from = NOW();

@@ -1,6 +1,6 @@
-------------------------------------
------ PACKAGE FOR HISTORIZATION
-------------------------------------
+-------------------------------
+----- GET TABLE COLUMNS STRING
+-------------------------------
 
 DELIMITER ;;
 CREATE DEFINER=`hqlive`@`%` FUNCTION `get_table_columns_string`(in_database_name CHAR(50), in_tab_name CHAR(50), in_show_table_name BOOL) RETURNS text CHARSET latin1
@@ -14,6 +14,7 @@ begin
 	DECLARE t CHAR(35);
 	DECLARE SQL_stmt TEXT;
 	
+	-- Create cursor
 	DECLARE cur_columns CURSOR FOR
 		SELECT column_name
 		FROM information_schema.columns
@@ -37,11 +38,16 @@ begin
 			LEAVE the_loop;
 		END IF;
 
+		-- if we want to display table name
 		IF in_show_table_name THEN
 			SET @column = CONCAT('`', in_tab_name, '`.`', t, '`');
+
+		-- if we don't want to display table name
 		ELSE
 			SET @column = CONCAT('`', t, '`');
 		END IF;
+
+		-- Concatenate columns
 		SET @out_columns = IF(@out_columns = '', @column, CONCAT(@out_columns, ', ', @column));
 		
 	END LOOP the_loop;
@@ -49,4 +55,3 @@ begin
 	RETURN @out_columns;
 end;;
 DELIMITER ;
-
