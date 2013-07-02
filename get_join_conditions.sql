@@ -1,6 +1,6 @@
-------------------------------------
------ PACKAGE FOR HISTORIZATION
-------------------------------------
+--------------------------
+----- GET JOIN CONDITIONS
+--------------------------
 
 DELIMITER ;;
 CREATE DEFINER=`hqlive`@`%` FUNCTION `get_join_conditions`(in_database_name CHAR(50), in_tab_name CHAR(50), in_tab_h_name CHAR(50)) RETURNS text CHARSET latin1
@@ -14,6 +14,7 @@ begin
 	DECLARE t CHAR(35);
 	DECLARE SQL_stmt TEXT;
 	
+	-- Create cursor
 	DECLARE cur_columns CURSOR FOR
 		SELECT column_name
 		FROM information_schema.columns

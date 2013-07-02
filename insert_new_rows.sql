@@ -1,6 +1,6 @@
-------------------------------------
------ PACKAGE FOR HISTORIZATION
-------------------------------------
+----------------------
+----- INSERT NEW ROWS
+----------------------
 
 DELIMITER ;;
 CREATE DEFINER=`hqlive`@`%` PROCEDURE `insert_new_rows`(in_database_name CHAR(50), in_tab_name CHAR(50), in_tab_h_name CHAR(50), in_valid_from DATETIME)
@@ -13,6 +13,7 @@ begin
 	SET @columns_extended_target = get_extended_columns_string_target(@columns_basic);
 	SET @columns_extended_source = get_extended_columns_string_source(@columns_basic, null, null);	
 	
+	-- Prepare SQL statement
 	SET @SQL_stmt = CONCAT('
 		INSERT INTO `', in_tab_h_name, '` (', @columns_extended_target ,')
 		SELECT
@@ -23,7 +24,11 @@ begin
 		WHERE 1=1
 			AND `', in_tab_name, '`.`id` IN (SELECT `id` FROM ', @temporary_table_name, ')
 	');
-	CALL log_hist_sql(in_database_name, @SQL_stmt); -- LOG SQL
+
+	-- LOG SQL
+	CALL log_hist_sql(in_database_name, @SQL_stmt); 
+
+	-- Call SQL statement
 	PREPARE stmt_insert FROM @SQL_stmt;
 	EXECUTE stmt_insert;
 	DEALLOCATE PREPARE stmt_insert;
