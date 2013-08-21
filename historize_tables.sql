@@ -1,6 +1,8 @@
-------------------------------------
------ HISTORIZE TABLES (all tables)
-------------------------------------
+-- ----------------------------------
+-- --- HISTORIZE TABLES (all tables)
+-- ----------------------------------
+
+DROP PROCEDURE IF EXISTS `historize_tables`;
 
 DELIMITER ;;
 CREATE DEFINER=`hqlive`@`%` PROCEDURE `historize_tables`(in_database_name CHAR(50), in_interval INTEGER)
@@ -14,7 +16,7 @@ begin
 	DECLARE no_more_rows BOOLEAN;
 	DECLARE loop_cntr INT DEFAULT 0;
 	DECLARE num_rows INT DEFAULT 0;
-
+	
 	-- Create cursor
 	DECLARE cursor_tables CURSOR FOR
 		SELECT `tables`.`table_name`
@@ -28,10 +30,18 @@ begin
 			AND `hist_table_exclusion`.id IS NULL
 		;
 
+	-- Exception handler
+	DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+	BEGIN
+		CALL log_hist_error(in_database_name, @SQL_stmt);
+	END;
+
 	DECLARE CONTINUE HANDLER FOR NOT FOUND
 		SET no_more_rows = TRUE;
 
 	CALL set_default_interval(in_database_name);
+	
+	CALL set_db_settings();
 	
 	OPEN cursor_tables;
 	SELECT FOUND_ROWS() INTO num_rows;

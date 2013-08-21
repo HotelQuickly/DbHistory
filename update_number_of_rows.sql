@@ -1,6 +1,8 @@
-----------------------------
------ UPDATE NUMBER OF ROWS
-----------------------------
+-- --------------------------
+-- --- UPDATE NUMBER OF ROWS
+-- --------------------------
+
+DROP PROCEDURE IF EXISTS `update_number_of_rows`;
 
 DELIMITER ;;
 CREATE DEFINER=`hqlive`@`%` PROCEDURE `update_number_of_rows`()

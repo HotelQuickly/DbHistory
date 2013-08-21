@@ -1,6 +1,8 @@
--------------------------------------
------ FUNCTION TO GET COLUMN STRINGS
--------------------------------------
+-- -----------------------------------
+-- --- FUNCTION TO GET COLUMN STRINGS
+-- -----------------------------------
+
+DROP FUNCTION IF EXISTS `get_extended_columns_string_source`;
 
 DELIMITER ;;
 CREATE DEFINER=`hqlive`@`%` FUNCTION `get_extended_columns_string_source`(in_columns TEXT, valid_from CHAR(20), valid_to CHAR(20)) RETURNS text CHARSET latin1

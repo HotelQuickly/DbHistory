@@ -1,6 +1,8 @@
----------------------------
------ SET DEFAULT INTERVAL
----------------------------
+-- -------------------------
+-- --- SET DEFAULT INTERVAL
+-- -------------------------
+
+DROP PROCEDURE IF EXISTS `set_default_interval`;
 
 DELIMITER ;;
 CREATE DEFINER=`hqlive`@`%` PROCEDURE `set_default_interval`(in_database_name CHAR(50))

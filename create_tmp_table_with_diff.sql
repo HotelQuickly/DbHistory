@@ -1,12 +1,20 @@
-----------------------------------------------
------ CREATE TEMPORARY TABLE WITH DIFFERENCES
-----------------------------------------------
+-- --------------------------------------------
+-- --- CREATE TEMPORARY TABLE WITH DIFFERENCES
+-- --------------------------------------------
+
+DROP PROCEDURE IF EXISTS `create_tmp_table_with_diff`;
 
 DELIMITER ;;
 CREATE DEFINER=`hqlive`@`%` PROCEDURE `create_tmp_table_with_diff`(in_database_name CHAR(50), in_tab_name CHAR(50), in_tab_h_name CHAR(50), in_last_upd_dt DATETIME)
 begin
 	DECLARE SQL_stmt TEXT;
 		
+	-- Exception handler
+	DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+	BEGIN
+		CALL log_hist_error(in_database_name, @SQL_stmt);
+	END;
+	
 	-- Prepare columns list
 	SET @columns_basic = get_table_columns_string(in_database_name, in_tab_name, true);
 	SET @columns_extended_target = get_extended_columns_string_target(@columns_basic);

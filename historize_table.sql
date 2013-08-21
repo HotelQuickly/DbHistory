@@ -1,6 +1,8 @@
--------------------------------------
------ HISTORIZE TABLE (only 1 table)
--------------------------------------
+-- -----------------------------------
+-- --- HISTORIZE TABLE (only 1 table)
+-- -----------------------------------
+
+DROP PROCEDURE IF EXISTS `historize_table`;
 
 DELIMITER ;;
 CREATE DEFINER=`hqlive`@`%` PROCEDURE `historize_table`(in_database_name CHAR(50), in_table_name CHAR(50))
@@ -13,9 +15,11 @@ begin
 	DECLARE loop_cntr INT DEFAULT 0;
 	DECLARE num_rows INT DEFAULT 0;
 
-	DECLARE tab_name CHAR(35);
-	DECLARE tab_h_name CHAR(35);
+	DECLARE tab_name CHAR(50);
+	DECLARE tab_h_name CHAR(50);
 
+	DECLARE error_found BOOLEAN DEFAULT false;
+	
 	-- Create cursor	
 	DECLARE cur1 CURSOR FOR
 		SELECT `tables`.`table_name`
@@ -27,6 +31,14 @@ begin
 			AND `tables`.`table_name` = in_table_name
 			AND `hist_table_exclusion`.id IS NULL
 		LIMIT 1;
+
+	-- Exception handler
+	DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+	BEGIN
+		CALL log_hist_error(in_database_name, @SQL_stmt);
+
+		SET error_found = TRUE;
+	END;
 
 	DECLARE CONTINUE HANDLER FOR NOT FOUND
 		SET no_more_rows = TRUE;
@@ -71,7 +83,9 @@ begin
 		CALL drop_tmp_table_with_diff(tab_name);
 
 		-- LOG SQL
-		CALL log_hist_sql(in_database_name, CONCAT('-- Ending table: ', @tab_h_name)); -- LOG SQL
+		IF error_found = FALSE THEN
+			CALL log_hist_sql(in_database_name, CONCAT('-- Ending table: ', @tab_h_name)); -- LOG SQL
+		END IF;
 		
 		SET loop_cntr = loop_cntr + 1;
 		

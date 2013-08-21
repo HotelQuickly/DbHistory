@@ -1,6 +1,8 @@
--------------------------------
------ GET TABLE COLUMNS STRING
--------------------------------
+-- -----------------------------
+-- --- GET TABLE COLUMNS STRING
+-- -----------------------------
+
+DROP FUNCTION IF EXISTS `get_table_columns_string`;
 
 DELIMITER ;;
 CREATE DEFINER=`hqlive`@`%` FUNCTION `get_table_columns_string`(in_database_name CHAR(50), in_tab_name CHAR(50), in_show_table_name BOOL) RETURNS text CHARSET latin1
@@ -11,7 +13,7 @@ begin
 	DECLARE loop_cntr INT DEFAULT 0;
 	DECLARE num_rows INT DEFAULT 0;
 	
-	DECLARE t CHAR(35);
+	DECLARE t CHAR(50);
 	DECLARE SQL_stmt TEXT;
 	
 	-- Create cursor

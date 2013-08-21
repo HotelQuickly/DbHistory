@@ -1,6 +1,8 @@
--------------------------------
------ GET LAST UPDATE DATETIME
--------------------------------
+-- -----------------------------
+-- --- GET LAST UPDATE DATETIME
+-- -----------------------------
+
+DROP FUNCTION IF EXISTS `get_last_upd_dt`;
 
 DELIMITER ;;
 CREATE DEFINER=`hqlive`@`%` FUNCTION `get_last_upd_dt`(in_database_name CHAR(50), in_table_name CHAR(50)) RETURNS datetime

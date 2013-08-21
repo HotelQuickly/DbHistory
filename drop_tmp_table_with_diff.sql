@@ -1,12 +1,20 @@
---------------------------------------------
------ DROP TEMPORARY TABLE WITH DIFFERENCES
---------------------------------------------
+-- ------------------------------------------
+-- --- DROP TEMPORARY TABLE WITH DIFFERENCES
+-- ------------------------------------------
+
+DROP PROCEDURE IF EXISTS `drop_tmp_table_with_diff`;
 
 DELIMITER ;;
 CREATE DEFINER=`hqlive`@`%` PROCEDURE `drop_tmp_table_with_diff`(in_tab_name CHAR(50))
 begin
 	DECLARE SQL_stmt TEXT;
 
+	-- Exception handler
+	DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+	BEGIN
+		CALL log_hist_error(in_database_name, @SQL_stmt);
+	END;
+	
 	-- Get name of the temporary table
 	SET @temporary_table_name = get_tmp_diff_table_name(in_tab_name);
 

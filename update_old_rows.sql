@@ -1,11 +1,19 @@
-----------------------
------ UPDATE OLD ROWS
-----------------------
+-- --------------------
+-- --- UPDATE OLD ROWS
+-- --------------------
+
+DROP PROCEDURE IF EXISTS `update_old_rows`;
 
 DELIMITER ;;
 CREATE DEFINER=`hqlive`@`%` PROCEDURE `update_old_rows`(in_database_name CHAR(50), in_tab_name CHAR(50), in_tab_h_name CHAR(50), in_valid_to DATETIME)
 begin
 
+	-- Exception handler
+	DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+	BEGIN
+		CALL log_hist_error(in_database_name, @SQL_stmt);
+	END;
+	
 	-- Set temporary table name from function
 	SET @temporary_table_name = get_tmp_diff_table_name(in_tab_name);
 	

@@ -1,6 +1,8 @@
-----------------------
------ LOG HISTORY SQL
-----------------------
+-- --------------------
+-- --- LOG HISTORY SQL
+-- --------------------
+
+DROP PROCEDURE IF EXISTS `log_hist_sql`;
 
 DELIMITER ;;
 CREATE DEFINER=`hqlive`@`%` PROCEDURE `log_hist_sql`(in_database_name CHAR(50), in_sql TEXT)
