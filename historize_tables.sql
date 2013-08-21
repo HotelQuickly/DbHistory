@@ -16,7 +16,7 @@ begin
 	DECLARE no_more_rows BOOLEAN;
 	DECLARE loop_cntr INT DEFAULT 0;
 	DECLARE num_rows INT DEFAULT 0;
-	
+
 	-- Create cursor
 	DECLARE cursor_tables CURSOR FOR
 		SELECT `tables`.`table_name`
@@ -58,6 +58,9 @@ begin
 		-- historize individual table
 		CALL historize_table(in_database_name, tab_name);
 		
+		-- Slow down the database a bit (CPU)
+		SELECT SLEEP(1);
+
 		-- increment loop counter
 		SET loop_cntr = loop_cntr + 1;
 		
