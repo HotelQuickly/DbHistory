@@ -59,7 +59,10 @@ begin
 		CALL historize_table(in_database_name, tab_name);
 		
 		-- Slow down the database a bit (CPU)
-		SELECT SLEEP(5);
+		SELECT
+			@rand := (round(rand()*10) + 4), 
+			@rand := CASE WHEN @rand > 10 THEN 10 ELSE @rand END,
+			SLEEP(@rand);
 
 		-- increment loop counter
 		SET loop_cntr = loop_cntr + 1;

@@ -4,7 +4,7 @@
 
 CREATE TABLE IF NOT EXISTS `hist_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `table_name` text NOT NULL,
+  `table_name` varchar(255) NOT NULL,
   `last_hist_dt` datetime DEFAULT NULL,
   `ins_dt` datetime NOT NULL,
   `ins_user_id` int(11) NOT NULL DEFAULT '-1',
@@ -20,3 +20,5 @@ CREATE TABLE IF NOT EXISTS `hist_log` (
   CONSTRAINT `hist_log_ibfk_1` FOREIGN KEY (`ins_user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `hist_log_ibfk_2` FOREIGN KEY (`upd_user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `hist_log` ADD INDEX (`table_name`);
