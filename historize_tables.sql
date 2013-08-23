@@ -59,7 +59,7 @@ begin
 		CALL historize_table(in_database_name, tab_name);
 		
 		-- Slow down the database a bit (CPU)
-		SELECT SLEEP(1);
+		SELECT SLEEP(5);
 
 		-- increment loop counter
 		SET loop_cntr = loop_cntr + 1;
