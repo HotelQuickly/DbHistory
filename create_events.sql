@@ -11,6 +11,14 @@ CREATE EVENT historize_1440
 		CALL historize_tables('hqlive', 1440);
 
 -- Create event 
+DROP EVENT IF EXISTS historize_120;
+CREATE EVENT historize_120
+	ON SCHEDULE EVERY 120 MINUTE
+	STARTS '2013-08-19 01:00:00'
+	DO
+		CALL historize_tables('hqlive', 120);
+
+-- Create event 
 DROP EVENT IF EXISTS historize_60;
 CREATE EVENT historize_60
 	ON SCHEDULE EVERY 60 MINUTE
