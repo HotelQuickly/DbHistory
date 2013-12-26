@@ -5,7 +5,10 @@
 DROP PROCEDURE IF EXISTS `historize_tables`;
 
 DELIMITER ;;
-CREATE DEFINER=`hqlive`@`%` PROCEDURE `historize_tables`(in_database_name CHAR(50), in_interval INTEGER)
+CREATE DEFINER=`hqlive`@`%` PROCEDURE `historize_tables`(
+	in_database_name CHAR(50), 
+	in_interval INTEGER
+)
 begin
 	DECLARE tab_name CHAR(50);
 	

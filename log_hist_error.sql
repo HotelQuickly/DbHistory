@@ -5,7 +5,10 @@
 DROP PROCEDURE IF EXISTS `log_hist_error`;
 
 DELIMITER ;;
-CREATE DEFINER=`hqlive`@`%` PROCEDURE `log_hist_error`(in_database_name CHAR(50), in_sql_statement TEXT)
+CREATE DEFINER=`hqlive`@`%` PROCEDURE `log_hist_error`(
+	in_database_name CHAR(50), 
+	in_sql_statement TEXT
+)
 begin
 	-- Prepare SQL statement
 	SET @SQL_error = CONCAT('

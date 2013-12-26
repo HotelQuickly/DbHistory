@@ -5,7 +5,11 @@
 DROP PROCEDURE IF EXISTS `create_hist_table`;
 
 DELIMITER ;;
-CREATE DEFINER=`hqlive`@`%` PROCEDURE `create_hist_table`(in_database_name CHAR(50), in_tab_name CHAR(50), in_tab_h_name CHAR(50))
+CREATE DEFINER=`hqlive`@`%` PROCEDURE `create_hist_table`(
+	in_database_name CHAR(50), 
+	in_tab_name CHAR(50), 
+	in_tab_h_name CHAR(50)
+)
 begin
 	DECLARE SQL_stmt TEXT;
 	DECLARE t CHAR(50);

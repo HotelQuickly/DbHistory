@@ -5,7 +5,12 @@
 DROP PROCEDURE IF EXISTS `insert_new_rows`;
 
 DELIMITER ;;
-CREATE DEFINER=`hqlive`@`%` PROCEDURE `insert_new_rows`(in_database_name CHAR(50), in_tab_name CHAR(50), in_tab_h_name CHAR(50), in_valid_from DATETIME)
+CREATE DEFINER=`hqlive`@`%` PROCEDURE `insert_new_rows`(
+	in_database_name CHAR(50), 
+	in_tab_name CHAR(50), 
+	in_tab_h_name CHAR(50), 
+	in_valid_from DATETIME
+)
 begin
 
 	-- Exception handler

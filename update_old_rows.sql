@@ -5,7 +5,12 @@
 DROP PROCEDURE IF EXISTS `update_old_rows`;
 
 DELIMITER ;;
-CREATE DEFINER=`hqlive`@`%` PROCEDURE `update_old_rows`(in_database_name CHAR(50), in_tab_name CHAR(50), in_tab_h_name CHAR(50), in_valid_to DATETIME)
+CREATE DEFINER=`hqlive`@`%` PROCEDURE `update_old_rows`(
+	in_database_name CHAR(50), 
+	in_tab_name CHAR(50), 
+	in_tab_h_name CHAR(50), 
+	in_valid_to DATETIME
+)
 begin
 
 	-- Exception handler

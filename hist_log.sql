@@ -16,9 +16,7 @@ CREATE TABLE IF NOT EXISTS `hist_log` (
   PRIMARY KEY (`id`),
   KEY `ins_user_id` (`ins_user_id`),
   KEY `upd_user_id` (`upd_user_id`),
-  KEY `upd_dt` (`upd_dt`),
-  CONSTRAINT `hist_log_ibfk_1` FOREIGN KEY (`ins_user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `hist_log_ibfk_2` FOREIGN KEY (`upd_user_id`) REFERENCES `user` (`id`)
+  KEY `upd_dt` (`upd_dt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE `hist_log` ADD INDEX (`table_name`);

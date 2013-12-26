@@ -5,7 +5,9 @@
 DROP FUNCTION IF EXISTS `get_tmp_diff_table_name`;
 
 DELIMITER ;;
-CREATE DEFINER=`hqlive`@`%` FUNCTION `get_tmp_diff_table_name`(in_tab_name CHAR(50)) RETURNS text CHARSET latin1
+CREATE DEFINER=`hqlive`@`%` FUNCTION `get_tmp_diff_table_name`(
+	in_tab_name CHAR(50)
+) RETURNS text CHARSET utf8
 begin	
 
 	-- Just return the name

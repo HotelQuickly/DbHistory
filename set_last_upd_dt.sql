@@ -5,7 +5,10 @@
 DROP PROCEDURE IF EXISTS `set_last_upd_dt`;
 
 DELIMITER ;;
-CREATE DEFINER=`hqlive`@`%` PROCEDURE `set_last_upd_dt`(in_database_name CHAR(50), in_tab_name CHAR(50))
+CREATE DEFINER=`hqlive`@`%` PROCEDURE `set_last_upd_dt`(
+	in_database_name CHAR(50), 
+	in_tab_name CHAR(50)
+)
 begin
 	DECLARE sql_text TEXT;
 

@@ -5,7 +5,9 @@
 DROP PROCEDURE IF EXISTS `set_default_interval`;
 
 DELIMITER ;;
-CREATE DEFINER=`hqlive`@`%` PROCEDURE `set_default_interval`(in_database_name CHAR(50))
+CREATE DEFINER=`hqlive`@`%` PROCEDURE `set_default_interval`(
+	in_database_name CHAR(50)
+)
 begin
 
 	-- Insert to param.table default values

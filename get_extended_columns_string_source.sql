@@ -5,7 +5,11 @@
 DROP FUNCTION IF EXISTS `get_extended_columns_string_source`;
 
 DELIMITER ;;
-CREATE DEFINER=`hqlive`@`%` FUNCTION `get_extended_columns_string_source`(in_columns TEXT, valid_from CHAR(20), valid_to CHAR(20)) RETURNS text CHARSET latin1
+CREATE DEFINER=`hqlive`@`%` FUNCTION `get_extended_columns_string_source`(
+	in_columns TEXT, 
+	valid_from CHAR(20), 
+	valid_to CHAR(20)
+) RETURNS text CHARSET utf8
 begin
 	DECLARE out_columns TEXT DEFAULT '';
 

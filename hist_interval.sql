@@ -18,7 +18,5 @@ CREATE TABLE IF NOT EXISTS `hist_interval` (
   UNIQUE KEY `AK_HIST_INTERVAL` (`table_name`),
   KEY `ins_user_id` (`ins_user_id`),
   KEY `upd_user_id` (`upd_user_id`),
-  KEY `upd_dt` (`upd_dt`),
-  CONSTRAINT `hist_interval_ibfk_1` FOREIGN KEY (`ins_user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `hist_interval_ibfk_2` FOREIGN KEY (`upd_user_id`) REFERENCES `user` (`id`)
+  KEY `upd_dt` (`upd_dt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

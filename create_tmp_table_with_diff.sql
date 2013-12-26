@@ -5,15 +5,26 @@
 DROP PROCEDURE IF EXISTS `create_tmp_table_with_diff`;
 
 DELIMITER ;;
-CREATE DEFINER=`hqlive`@`%` PROCEDURE `create_tmp_table_with_diff`(in_database_name CHAR(50), in_tab_name CHAR(50), in_tab_h_name CHAR(50), in_last_upd_dt DATETIME)
+CREATE DEFINER=`hqlive`@`%` PROCEDURE `create_tmp_table_with_diff`(
+	in_database_name CHAR(50), 
+	in_tab_name CHAR(50), 
+	in_tab_h_name CHAR(50),
+	in_last_upd_dt DATETIME,
+	in_id INT
+)
 begin
 	DECLARE SQL_stmt TEXT;
-		
+
 	-- Exception handler
 	DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
 	BEGIN
 		CALL log_hist_error(in_database_name, @SQL_stmt);
 	END;
+
+	-- Set default values
+	IF in_id = '' THEN 
+		SET in_id = NULL;
+	END IF;
 	
 	-- Prepare columns list
 	SET @columns_basic = get_table_columns_string(in_database_name, in_tab_name, true);
@@ -39,6 +50,7 @@ begin
 			', @join_conditions ,'
 			AND (NOW() BETWEEN `', in_tab_h_name,'`.`valid_from` AND `', in_tab_h_name,'`.`valid_to`)
 		WHERE 1=1
+			AND `', in_tab_name,'`.`id` = ', in_id,'
 			AND `', in_database_name, '`.`', in_tab_name, '`.`upd_dt` >= "', in_last_upd_dt, '"
 			AND `', in_tab_h_name,'`.`id` IS NULL
 	');

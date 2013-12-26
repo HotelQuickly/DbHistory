@@ -5,7 +5,11 @@
 DROP FUNCTION IF EXISTS `get_join_conditions`;
 
 DELIMITER ;;
-CREATE DEFINER=`hqlive`@`%` FUNCTION `get_join_conditions`(in_database_name CHAR(50), in_tab_name CHAR(50), in_tab_h_name CHAR(50)) RETURNS text CHARSET latin1
+CREATE DEFINER=`hqlive`@`%` FUNCTION `get_join_conditions`(
+	in_database_name CHAR(50), 
+	in_tab_name CHAR(50), 
+	in_tab_h_name CHAR(50)
+) RETURNS text CHARSET utf8
 begin	
 	DECLARE out_columns TEXT DEFAULT '';
 	
