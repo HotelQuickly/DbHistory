@@ -40,9 +40,16 @@ begin
 			LEAVE the_loop;
 		END IF;
 
-		SET @column = CONCAT('
-			AND IFNULL(`', in_tab_name, '`.`', t, '`, "XNA") = IFNULL(`', in_tab_h_name, '`.`', t, '`, "XNA")
-		');
+		IF t = 'id' THEN
+			SET @column = CONCAT('
+				AND `', in_tab_name, '`.`', t, '` = `', in_tab_h_name, '`.`', t, '`
+			');
+		ELSE 
+			SET @column = CONCAT('
+				AND IFNULL(`', in_tab_name, '`.`', t, '`, "XNA") = IFNULL(`', in_tab_h_name, '`.`', t, '`, "XNA")
+			');
+		END IF;
+
 		SET @out_columns = CONCAT(@out_columns, @column);
 		
 	END LOOP the_loop;
