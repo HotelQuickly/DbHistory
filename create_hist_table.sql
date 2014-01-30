@@ -160,10 +160,17 @@ begin
 
 	
 		IF @SQL_stmt IS NOT NULL THEN 
+			-- LOG SQL
+			CALL log_hist_sql(in_database_name, @SQL_stmt); 
+
 			-- Call SQL statement
 			PREPARE stmt_copy_to_hist_table FROM @SQL_stmt;
 			EXECUTE stmt_copy_to_hist_table;
 			DEALLOCATE PREPARE stmt_copy_to_hist_table;
+		ELSE 
+			-- LOG SQL
+			CALL log_hist_sql(in_database_name, '-- No need to alter table'); 
+
 		END IF;
 
 	END IF;

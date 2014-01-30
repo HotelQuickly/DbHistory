@@ -10,17 +10,19 @@ CREATE DEFINER=`hqlive`@`%` FUNCTION `get_last_upd_dt`(
 	in_table_name CHAR(50)
 ) RETURNS datetime
 begin
-	DECLARE max_last_hist_dt DATETIME;
+	DECLARE max_last_start_dt DATETIME DEFAULT NULL;
 
 	-- Select maximum datetime	
 	SELECT 
-		last_hist_dt INTO max_last_hist_dt 
-	FROM hqlive.hist_log
-	WHERE `table_name` = in_table_name
+		`hist_log`.`start_dt` INTO max_last_start_dt
+	FROM `hqlive`.`hist_log`
+	WHERE 1=1
+		AND `table_name` = in_table_name
+		AND `hist_log`.`finish_dt` IS NOT NULL
 	ORDER BY 
-		last_hist_dt DESC
+		`id` DESC
 	LIMIT 1;
 	
-	RETURN max_last_hist_dt;
+	RETURN IFNULL(max_last_start_dt, '1900-01-01');
 end;;
 DELIMITER ;

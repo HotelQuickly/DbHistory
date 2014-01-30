@@ -4,8 +4,9 @@
 
 CREATE TABLE IF NOT EXISTS `hist_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `table_name` varchar(255) NOT NULL,
-  `last_hist_dt` datetime DEFAULT NULL,
+  `table_name` varchar(255) DEFAULT NULL,
+  `start_dt` datetime DEFAULT NULL,
+  `finish_dt` datetime DEFAULT NULL,
   `ins_dt` datetime NOT NULL,
   `ins_user_id` int(11) NOT NULL DEFAULT '-1',
   `ins_process_id` varchar(255) DEFAULT NULL,
@@ -16,7 +17,6 @@ CREATE TABLE IF NOT EXISTS `hist_log` (
   PRIMARY KEY (`id`),
   KEY `ins_user_id` (`ins_user_id`),
   KEY `upd_user_id` (`upd_user_id`),
-  KEY `upd_dt` (`upd_dt`)
+  KEY `upd_dt` (`upd_dt`),
+  KEY `table_name` (`table_name`,`start_dt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-ALTER TABLE `hist_log` ADD INDEX (`table_name`);
